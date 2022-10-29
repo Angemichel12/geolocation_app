@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %} 
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-8 text-left"> 
+      <h1 align="center"></h1>
+      <!-- <p align="center">{{ data }}</p> -->
+      <p align="center">
+        <ul>
+          <li>Country: </li>
+          <li>City: </li>
+          <li>Latitude: </li>
+          <li>Longitude: </li>
+        </ul>
+      </p>
+      <hr>
+      <h3 align="center">More Details</h3>
+      <p align="center">
+        <ul>
+          <li>Country Code:  </li>
+          <li>Timezone: </li>
+          <li>Zip: </li>
+        </ul>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
