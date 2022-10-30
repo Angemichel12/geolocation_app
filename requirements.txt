@@ -1,0 +1,5 @@
+django
+folium
+requests
+python
+pipenv
