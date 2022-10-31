@@ -24,8 +24,8 @@ def report(request):
 def map_page(request):
 	data = Location.objects.all()
 	data_list = Location.objects.values_list('latitude', 'longitude')
-	map1 = folium.Map(location=[19, -12], tiles='CartoDB Dark_Matter', zoom_start=2)
-	plugins.HeatMap(data_list).add_to(map1)
+	map1 = folium.Map(location=[-1.952183, 30.054957], tiles='OpenStreetMap', zoom_start=9.5)
+	plugins.FastMarkerCluster(data_list, icon=None).add_to(map1)
 
 	map1 = map1._repr_html_()
 
