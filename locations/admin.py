@@ -1,4 +1,8 @@
 from django.contrib import admin
-from .models import Location
+from .models import *
 
 admin.site.register(Location)
+admin.site.register(OurTeam)
+admin.site.register(TeamSocialMedia)
+
+
