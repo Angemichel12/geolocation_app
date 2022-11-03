@@ -4,8 +4,11 @@ import json
 from .models import Location
 import folium
 from folium import plugins
-from .forms import PropertyRegister
+from .forms import PropertyRegister, RegistrationForm
 from django.contrib import messages
+
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 
 def home_page(request):
 	return render(request, 'index.html')
@@ -42,3 +45,41 @@ def get_detail(request):
 		form=PropertyRegister()
 	
 	return render(request, 'report_form.html', context = {'form':form,})
+
+def dashboard(request):
+	context = {}
+	return render(request, 'dashboard.html', context)
+
+
+
+def registration(request):
+    context = {}
+    context['form'] = RegistrationForm()
+
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST,request.FILES)
+        if(form.is_valid()):
+            form.save()
+            return redirect('/')
+        else:
+            context['form'] = form
+    return render(request,'signup.html',context)
+
+
+def login_request(request):
+	if request.method == "POST":
+		form = AuthenticationForm(request, data=request.POST)
+		if form.is_valid():
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password')
+			user = authenticate(username=username, password=password)
+			if user is not None:
+				login(request, user)
+				messages.info(request, f"You are now logged in as {username}.")
+				return redirect("/")
+			else:
+				messages.error(request,"Invalid username or password.")
+		else:
+			messages.error(request,"Invalid username or password.")
+	form = AuthenticationForm()
+	return render(request=request, template_name="login.html", context={"login_form":form})

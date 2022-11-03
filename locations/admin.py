@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(Location)
-admin.site.register(OurTeam)
-admin.site.register(TeamSocialMedia)
+admin.site.register(User)
 
 
