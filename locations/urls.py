@@ -11,6 +11,7 @@ urlpatterns = [
 	path('get_detail/', get_detail, name='get_detail'),
 	path('dashboard/', dashboard, name='dashboard'),
 	path('sign-up/',registration,name='signup'),
-    path("login/", login_request, name="login")
+    path("login/", login_request, name="login"),
+    path("detail/<int:id>", detail, name="datail"),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

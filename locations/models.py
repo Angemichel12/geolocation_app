@@ -15,11 +15,11 @@ class User(AbstractUser):
 
 
 class Location(models.Model):
+	poster=models.CharField(max_length=40)
 	country = models.CharField(max_length=60)
 	latitude = models.FloatField(default=0)
 	longitude = models.FloatField(default=0)
 	city = models.CharField(max_length=30, null=True, blank=True)
-	street = models.CharField(max_length=30, null=True, blank=True)
 	reported_time = models.DateTimeField(default=timezone.now)
 	image = models.ImageField(upload_to='properties/')
 	description = models.TextField(default='devastation')

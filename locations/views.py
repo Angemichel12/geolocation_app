@@ -9,13 +9,14 @@ from django.contrib import messages
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 def home_page(request):
 	return render(request, 'index.html')
 
-
+@login_required
 def map_page(request):
-	data = Location.objects.all()
 	data_list = Location.objects.values_list('latitude', 'longitude')
 	map1 = folium.Map(location=[-1.952183, 30.054957], tiles='OpenStreetMap', zoom_start=9.5)
 	plugins.FastMarkerCluster(data_list, icon=None).add_to(map1)
@@ -27,6 +28,7 @@ def map_page(request):
 	}
 	return render(request, 'map.html', context)
 
+@login_required
 def get_detail(request):
 	if request.method == 'POST':
 		ip = requests.get('https://api.ipify.org?format=json')
@@ -35,8 +37,8 @@ def get_detail(request):
 		location_data_one = res.text
 		location_data = json.loads(location_data_one)
 
-		info = Location(country=location_data['country'], latitude=location_data['lat'], longitude=location_data['lon'],
-		city=location_data['city'], street=location_data['regionName'], image=request.FILES.get('photo'), description=request.POST.get('message'))
+		info = Location(poster=request.user,country=location_data['country'], latitude=location_data['lat'], longitude=location_data['lon'],
+		city=location_data['city'], image=request.FILES.get('photo'), description=request.POST.get('message'))
 		info.save()
 		messages.success(request, f'Report is successfull!')
 		return redirect('home')
@@ -46,8 +48,19 @@ def get_detail(request):
 	
 	return render(request, 'report_form.html', context = {'form':form,})
 
+@login_required
 def dashboard(request):
-	context = {}
+	datas = Location.objects.all()
+	data_list = Location.objects.values_list('latitude', 'longitude')
+	map1 = folium.Map(location=[-1.952183, 30.054957], tiles='OpenStreetMap', zoom_start=9.5)
+	plugins.FastMarkerCluster(data_list, icon=None).add_to(map1)
+
+	map1 = map1._repr_html_()
+
+	context = {
+		'map1' : map1,
+		'datas':datas,
+	}
 	return render(request, 'dashboard.html', context)
 
 
@@ -60,7 +73,7 @@ def registration(request):
         form = RegistrationForm(request.POST,request.FILES)
         if(form.is_valid()):
             form.save()
-            return redirect('/')
+            return redirect('get_detail')
         else:
             context['form'] = form
     return render(request,'signup.html',context)
@@ -76,10 +89,26 @@ def login_request(request):
 			if user is not None:
 				login(request, user)
 				messages.info(request, f"You are now logged in as {username}.")
-				return redirect("/")
+				return redirect("get_detail")
 			else:
 				messages.error(request,"Invalid username or password.")
 		else:
 			messages.error(request,"Invalid username or password.")
 	form = AuthenticationForm()
 	return render(request=request, template_name="login.html", context={"login_form":form})
+
+@login_required
+def detail(request, id):
+	single_list = Location.objects.filter(pk=id).values_list('latitude', 'longitude')
+	map1 = folium.Map(location=[-1.952183, 30.054957], tiles='OpenStreetMap', zoom_start=9.5)
+	plugins.FastMarkerCluster(single_list, icon=None).add_to(map1)
+
+	map1 = map1._repr_html_()
+
+	obj = get_object_or_404(Location,pk=id)
+
+	context = {
+		'map1' : map1,
+		'obj':obj,
+	}
+	return render(request, 'detail.html', context)
