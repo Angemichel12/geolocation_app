@@ -1,5 +1,5 @@
 from django import forms
-from .models import Location,User
+from .models import Location,User,Contact
 from secrets import choice
 from django.core.exceptions import ValidationError
 
@@ -50,3 +50,8 @@ class RegistrationForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         user.save()
         return user
+
+# class ContactForm(forms.ModelForm):
+#     class Meta:
+#         model=Contact
+#         fields=['name','email','subject','message']

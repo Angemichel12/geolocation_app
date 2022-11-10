@@ -31,5 +31,12 @@ class Location(models.Model):
 	def __str__(self):
 		return self.city
 
+class Contact(models.Model):
+	name=models.CharField(max_length=100,null=True,blank=True)
+	email=models.EmailField(max_length=100)
+	subject=models.CharField(max_length=100)
+	message=models.TextField(max_length=3000)
+	created_at=models.DateTimeField(auto_now=True)
+
 
 	

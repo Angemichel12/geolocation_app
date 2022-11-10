@@ -227,6 +227,7 @@
                                             <div class="mess__title">
                                                 <p>You have 2 news message</p>
                                             </div>
+                                            </table>
                                             <div class="mess__item">
                                                 <div class="image img-cir img-40">
                                                     <img src="images/icon/avatar-06.jpg" alt="Michelle Moreno" />
@@ -463,6 +464,37 @@
                                     </table>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <h2 class="title-1 m-b-25">List of Contact Messages.</h2>
+                                    <div class="table-responsive table--no-card m-b-40">
+                                        <table class="table table-borderless table-striped table-earning">
+                                            <thead>
+                                                <tr>
+                                                    
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Subject</th>
+                                                    <th class="text-right">Message</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for contact in contacts %}
+                                                <tr>
+                                                    
+                                                    <td>{{ contact.name }}</td>
+                                                    <td>{{ contact.email }}</td>
+                                                    <td class="text-right">{{ contact.subject }}</td>
+                                                    <td class="text-right">{{ contact.message }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                         
                         <div class="row">
                             <div class="col-md-12">

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 import requests
 import json
-from .models import Location
+from .models import Location,Contact
 import folium
 from folium import plugins
 from .forms import PropertyRegister, RegistrationForm
@@ -53,6 +53,8 @@ def get_detail(request):
 @login_required
 def dashboard(request):
 	datas = Location.objects.all()
+	contacts=Contact.objects.all()
+	
 	data_list = Location.objects.values_list('latitude', 'longitude')
 	map1 = folium.Map(location=[-1.952183, 30.054957], tiles='OpenStreetMap', zoom_start=9.5)
 	plugins.FastMarkerCluster(data_list, icon=None).add_to(map1)
@@ -62,9 +64,9 @@ def dashboard(request):
 	context = {
 		'map1' : map1,
 		'datas':datas,
+		'contacts':contacts
 	}
 	return render(request, 'dashboard.html', context)
-
 
 
 def registration(request):
@@ -114,3 +116,32 @@ def detail(request, id):
 		'obj':obj,
 	}
 	return render(request, 'detail.html', context)
+
+@login_required
+def show(request):  
+	contacts=Contact.objects.all()
+	return render(request,"dashboard.html",{'contacts':contacts})
+
+
+def contact(request):
+	if request.method=="POST":
+		name=request.POST.get('name')
+		email=request.POST.get('email')
+		subject=request.POST.get('subject')
+		message=request.POST.get('message')
+
+		en=Contact(name=name,email=email,subject=subject,message=message)
+		en.save()
+		
+	return redirect('contact')
+
+	
+	
+    # context = {}
+    # context['form'] = ContactForm()
+
+    # if request.method == 'POST':
+    #     form = ContactForm(request.POST)
+    #     if(form.is_valid()):
+    #         form.save()
+    #         return redirect('/')
