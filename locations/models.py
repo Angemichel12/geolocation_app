@@ -23,8 +23,13 @@ class Location(models.Model):
 	reported_time = models.DateTimeField(default=timezone.now)
 	image = models.ImageField(upload_to='properties/')
 	description = models.TextField(default='devastation')
-
+	district = models.CharField(max_length=30)
+	sector = models.CharField(max_length=30)
+	cell = models.CharField(max_length=30)
+	village = models.CharField(max_length=30)
 
 	def __str__(self):
-		return self.country
+		return self.city
 
+
+	

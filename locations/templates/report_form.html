@@ -30,6 +30,38 @@
                 <div class="card-body">
                     <form method="POST" enctype='multipart/form-data'>
                     	{% csrf_token %}
+                        <div class="form-row">
+                            <div class="name">District</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input type="text" name="district" class="input--style-6">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="name">Sector</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input type="text" name="sector" class="input--style-6">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="name">Cell</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input type="text" name="cell" class="input--style-6">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="name">Village</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input type="text" name="village" class="input--style-6">
+                                </div>
+                            </div>
+                        </div>
                    
                         <div class="form-row">
                             <div class="name">Description</div>

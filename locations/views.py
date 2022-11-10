@@ -38,7 +38,9 @@ def get_detail(request):
 		location_data = json.loads(location_data_one)
 
 		info = Location(poster=request.user,country=location_data['country'], latitude=location_data['lat'], longitude=location_data['lon'],
-		city=location_data['city'], image=request.FILES.get('photo'), description=request.POST.get('message'))
+		city=location_data['city'], image=request.FILES.get('photo'), description=request.POST.get('message'),
+		district=request.POST.get('district'), sector=request.POST.get('sector'), cell=request.POST.get('cell'),
+		village=request.POST.get('village'))
 		info.save()
 		messages.success(request, f'Report is successfull!')
 		return redirect('home')
@@ -46,7 +48,7 @@ def get_detail(request):
 	
 		form=PropertyRegister()
 	
-	return render(request, 'report_form.html', context = {'form':form,})
+	return render(request, 'report_form.html', context = {'form':form})
 
 @login_required
 def dashboard(request):

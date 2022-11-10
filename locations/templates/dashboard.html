@@ -443,18 +443,19 @@
                                                 <th>date</th>
                                                 <th>Reporter</th>
                                                 <th>city</th>
-                                                <th class="text-right">latitude</th>
-                                                <th class="text-right">longitude</th>
+                                                <th class="text-right">Description</th>
+                                                <th class="text-right">Address</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for data in datas %}
                                             <tr>
-                                                <td>{{ data.reported_time }}</td>
+                                                <td><p>Date: {{ data.reported_time|date:'Y-m-d' }}</p>
+                                                    <p>Time: {{ data.reported_time|date:'H:i' }}</p></td>
                                                 <td>{{ data.poster }}</td>
                                                 <td><a href="{% url 'datail' data.id %}" style="text-decoration: none;">{{ data.city }}</a></td>
-                                                <td class="text-right">{{ data.latitude }}</td>
-                                                <td class="text-right">{{ data.longitude }}</td>
+                                                <td class="text-right">{{ data.description }}</td>
+                                                <td class="text-right"><p>{{ data.district }},{{ data.sector }},</p><p>{{ data.cell }}, {{ data.village }}</p></td>
                                             </tr>
                                             {% endfor %}
                                             
