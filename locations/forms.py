@@ -1,5 +1,6 @@
 from django import forms
 from .models import Location,User,Contact
+from .models import Location,User, Contact
 from secrets import choice
 from django.core.exceptions import ValidationError
 
@@ -7,6 +8,10 @@ class PropertyRegister(forms.ModelForm):
 	class Meta:
 		model = Location
 		fields = ['image', 'description', 'district', 'sector', 'cell', 'village']
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name','email', 'subject', 'message']
 
 
 class RegistrationForm(forms.ModelForm):

@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 import requests
 import json
 from .models import Location,Contact
+from .models import Location, Contact
 import folium
 from folium import plugins
-from .forms import PropertyRegister, RegistrationForm
+from .forms import PropertyRegister, RegistrationForm, ContactForm
 from django.contrib import messages
 
 from django.contrib.auth import login, authenticate
@@ -13,7 +14,13 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 def home_page(request):
-	return render(request, 'index.html')
+	if request.method == 'POST':
+		info = Contact.objects.create(name=request.POST.get('name'), email=request.POST.get('email'), subject=request.POST.get('subject'), message=request.POST.get('message'))
+		info.save()
+		return redirect('/')
+	else:
+		formContact = ContactForm()
+	return render(request, 'index.html', {'formContact':formContact})
 
 @login_required
 def map_page(request):
@@ -52,6 +59,7 @@ def get_detail(request):
 
 @login_required
 def dashboard(request):
+	contacts = Contact.objects.all()
 	datas = Location.objects.all()
 	contacts=Contact.objects.all()
 	
@@ -65,6 +73,7 @@ def dashboard(request):
 		'map1' : map1,
 		'datas':datas,
 		'contacts':contacts
+		'contacts':contacts,
 	}
 	return render(request, 'dashboard.html', context)
 
@@ -116,7 +125,6 @@ def detail(request, id):
 		'obj':obj,
 	}
 	return render(request, 'detail.html', context)
-
 @login_required
 def show(request):  
 	contacts=Contact.objects.all()
@@ -145,3 +153,5 @@ def contact(request):
     #     if(form.is_valid()):
     #         form.save()
     #         return redirect('/')
+	
+	return render(request, 'index.html', {'formContact': formContact})

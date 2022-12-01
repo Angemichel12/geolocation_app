@@ -23,13 +23,10 @@ class Location(models.Model):
 	reported_time = models.DateTimeField(default=timezone.now)
 	image = models.ImageField(upload_to='properties/')
 	description = models.TextField(default='devastation')
-	district = models.CharField(max_length=30)
-	sector = models.CharField(max_length=30)
-	cell = models.CharField(max_length=30)
-	village = models.CharField(max_length=30)
 
 	def __str__(self):
 		return self.city
+
 
 class Contact(models.Model):
 	name=models.CharField(max_length=100,null=True,blank=True)
@@ -38,5 +35,7 @@ class Contact(models.Model):
 	message=models.TextField(max_length=3000)
 	created_at=models.DateTimeField(auto_now=True)
 
+	def __str__(self):
+		return self.name
 
 	
