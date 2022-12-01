@@ -16,5 +16,6 @@ urlpatterns = [
     path("detail/RP-<int:id>", detail, name="datail"),
 	path('contact/',contact,name='contact'),
 	path('user_profile/',profile,name='profile'),
+	path("complete/RP-<int:id>", completeProblem, name="complete"),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

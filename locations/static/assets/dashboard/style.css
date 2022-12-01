@@ -147,11 +147,13 @@ a:hover i{
   background: transparent;
   border: 1px solid #4AD489;
 }
+
 .users .card button:hover{
   background: #4AD489;
   color: #fff;
   transition: 0.5s;
 }
+
 
 /*Attendance List serction  */
 .attendance{

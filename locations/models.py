@@ -30,6 +30,7 @@ class Location(models.Model):
 	city = models.CharField(max_length=30, null=True, blank=True)
 	district = models.CharField(max_length=50, null=True, blank=True)
 	sector = models.CharField(max_length=50, null=True, blank=True)
+	status = models.BooleanField(default=False)
 	reported_time = models.DateTimeField(default=timezone.now)
 	image = models.ImageField(upload_to='properties/')
 	description = models.TextField(default='devastation')

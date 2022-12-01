@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 import requests
 import json
-from .models import Location,Contact
-from .models import Location, Contact
+from .models import *
 import folium
 from folium import plugins
 from .forms import PropertyRegister, RegistrationForm, ContactForm
@@ -61,7 +60,14 @@ def get_detail(request):
 def dashboard(request):
 	contacts = Contact.objects.all()
 	datas = Location.objects.all()
+	number_problem = datas.count()
 	contacts=Contact.objects.all()
+	users = User.objects.all()
+	number_user = users.count()
+	uncompletes = Location.objects.filter(status=False)
+	number_uncomplete = uncompletes.count()
+	completes = Location.objects.filter(status=True)
+	number_complete =completes.count()
 	
 	data_list = Location.objects.values_list('latitude', 'longitude')
 	map1 = folium.Map(location=[-1.952183, 30.054957], tiles='OpenStreetMap', zoom_start=9.5)
@@ -73,6 +79,13 @@ def dashboard(request):
 		'map1' : map1,
 		'datas':datas,
 		'contacts':contacts,
+		'users':users,
+		'uncompletes':uncompletes,
+		'completes':completes,
+		'number_user':number_user,
+		'number_uncomplete':number_uncomplete,
+		'number_complete':number_complete,
+		'number_problem':number_problem,
 	}
 	return render(request, 'dashboard.html', context)
 
@@ -154,3 +167,10 @@ def contact(request):
 	return redirect('contact')
 	
 	return render(request, 'index.html', {'formContact': formContact})
+
+def completeProblem(request, id):
+	problem = Location.objects.get(pk=id)
+	problem.status = True
+	problem.save()
+
+	return redirect('dashboard')
