@@ -72,7 +72,6 @@ def dashboard(request):
 	context = {
 		'map1' : map1,
 		'datas':datas,
-		'contacts':contacts
 		'contacts':contacts,
 	}
 	return render(request, 'dashboard.html', context)
@@ -129,6 +128,8 @@ def detail(request, id):
 def show(request):  
 	contacts=Contact.objects.all()
 	return render(request,"dashboard.html",{'contacts':contacts})
+def profile(request):
+	return render(request, 'profile.html')
 
 
 def contact(request):

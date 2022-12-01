@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 class PropertyRegister(forms.ModelForm):
 	class Meta:
 		model = Location
-		fields = ['image', 'description', 'district', 'sector', 'cell', 'village']
+		fields = ['image', 'description']
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact

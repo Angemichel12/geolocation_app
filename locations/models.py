@@ -12,14 +12,23 @@ class User(AbstractUser):
     )
     gender=models.CharField(max_length=30,choices=GENDER, null=True)
     age=models.IntegerField(null=True)
+    phone_number = models.CharField(max_length=13, null=True)
 
+class Profile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	profile_image = models.ImageField(default='default.jpd', upload_to='profile/')
+
+	def __str__(self):
+		return self.user.username
 
 class Location(models.Model):
-	poster=models.CharField(max_length=40)
+	poster=models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	country = models.CharField(max_length=60)
 	latitude = models.FloatField(default=0)
 	longitude = models.FloatField(default=0)
 	city = models.CharField(max_length=30, null=True, blank=True)
+	district = models.CharField(max_length=50, null=True, blank=True)
+	sector = models.CharField(max_length=50, null=True, blank=True)
 	reported_time = models.DateTimeField(default=timezone.now)
 	image = models.ImageField(upload_to='properties/')
 	description = models.TextField(default='devastation')
