@@ -8,10 +8,11 @@ from folium import plugins
 from .forms import PropertyRegister, RegistrationForm, ContactForm
 from django.contrib import messages
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 def home_page(request):
 	if request.method == 'POST':
@@ -44,10 +45,9 @@ def get_detail(request):
 		location_data_one = res.text
 		location_data = json.loads(location_data_one)
 
-		info = Location(poster=request.user,country=location_data['country'], latitude=location_data['lat'], longitude=location_data['lon'],
-		city=location_data['city'], image=request.FILES.get('photo'), description=request.POST.get('message'),
-		district=request.POST.get('district'), sector=request.POST.get('sector'), cell=request.POST.get('cell'),
-		village=request.POST.get('village'))
+		info = Location(title =request.POST.get('title'), poster=request.user,country=location_data['country'], latitude=location_data['lat'], longitude=location_data['lon'],
+		city=request.POST.get('inputCity'), image=request.FILES.get('photo'), description=request.POST.get('message'),
+		district=request.POST.get('inputDistrict'), sector=request.POST.get('inputSector'))
 		info.save()
 		messages.success(request, f'Report is successfull!')
 		return redirect('home')
@@ -101,13 +101,23 @@ def login_request(request):
 			if user is not None:
 				login(request, user)
 				messages.info(request, f"You are now logged in as {username}.")
-				return redirect("get_detail")
+				print(user.is_staff)
+				if user.is_staff == True:
+					return redirect("dashboard")
+				else:
+					return redirect("get_detail")
+
 			else:
 				messages.error(request,"Invalid username or password.")
 		else:
 			messages.error(request,"Invalid username or password.")
 	form = AuthenticationForm()
 	return render(request=request, template_name="login.html", context={"login_form":form})
+
+def logout_request(request):
+	logout(request)
+	messages.info(request, "You have successfully logged out.") 
+	return redirect("home")
 
 @login_required
 def detail(request, id):
@@ -124,10 +134,9 @@ def detail(request, id):
 		'obj':obj,
 	}
 	return render(request, 'detail.html', context)
+
+
 @login_required
-def show(request):  
-	contacts=Contact.objects.all()
-	return render(request,"dashboard.html",{'contacts':contacts})
 def profile(request):
 	return render(request, 'profile.html')
 
@@ -143,16 +152,5 @@ def contact(request):
 		en.save()
 		
 	return redirect('contact')
-
-	
-	
-    # context = {}
-    # context['form'] = ContactForm()
-
-    # if request.method == 'POST':
-    #     form = ContactForm(request.POST)
-    #     if(form.is_valid()):
-    #         form.save()
-    #         return redirect('/')
 	
 	return render(request, 'index.html', {'formContact': formContact})

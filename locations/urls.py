@@ -12,9 +12,9 @@ urlpatterns = [
 	path('dashboard/', dashboard, name='dashboard'),
 	path('sign-up/',registration,name='signup'),
     path("login/", login_request, name="login"),
-    path("detail/<int:id>", detail, name="datail"),
+    path("logout", logout_request, name= "logout"),
+    path("detail/RP-<int:id>", detail, name="datail"),
 	path('contact/',contact,name='contact'),
-	path('show/',show,name='show'),
 	path('user_profile/',profile,name='profile'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -23,6 +23,7 @@ class Profile(models.Model):
 
 class Location(models.Model):
 	poster=models.ForeignKey(User, on_delete=models.DO_NOTHING)
+	title = models.CharField(max_length=40, null=True)
 	country = models.CharField(max_length=60)
 	latitude = models.FloatField(default=0)
 	longitude = models.FloatField(default=0)
@@ -34,7 +35,7 @@ class Location(models.Model):
 	description = models.TextField(default='devastation')
 
 	def __str__(self):
-		return self.city
+		return self.title
 
 
 class Contact(models.Model):

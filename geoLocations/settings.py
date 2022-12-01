@@ -134,3 +134,6 @@ AUTH_USER_MODEL = 'locations.User'
 
 LOGIN_REDIRECT_URL = 'get_detail'
 LOGIN_URL = 'login'
+
+
+
