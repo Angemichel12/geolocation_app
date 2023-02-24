@@ -38,5 +38,8 @@ class Contact(models.Model):
 	message=models.TextField(max_length=3000)
 	created_at=models.DateTimeField(auto_now=True)
 
+	def __str__(self):
+		return self.name
+
 
 	

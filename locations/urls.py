@@ -1,5 +1,6 @@
 from django.urls import path 
 from .views import *
+from .apiviews import LocationList, LocationDetail
 from geoLocations import settings
 from django.conf.urls.static import static
 
@@ -15,5 +16,7 @@ urlpatterns = [
     path("detail/<int:id>", detail, name="datail"),
 	path('contact/',contact,name='contact'),
 	path('show/',show,name='show'),
+    path('locations/', LocationList.as_view(), name='locatons_list'),
+    path('location/<int:pk>/', LocationDetail.as_view(), name='location_detail'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
